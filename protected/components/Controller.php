@@ -15,7 +15,11 @@ class Controller extends CController
         if( parent::beforeAction($action) ) {
             /* @var $cs CClientScript */
             $cs = Yii::app()->clientScript;
+            /* @var $theme CTheme */
+            $theme = Yii::app()->theme;
             $cs->registerPackage('jquery');
+            $cs->registerScriptFile( $theme->getBaseUrl() . '/js/script.js' );
+            $cs->registerCssFile($theme->getBaseUrl() . '/css/styles.css');
             return true;
         }
         return false;
