@@ -32,11 +32,60 @@ class ParseHelper
 
     /**
      * Get full path to docs folder
+     * @throws ParseException
      * @return string
      */
     public function getDocsFolder() {
         $dir = Yii::getPathOfAlias('application') . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . self::FOLDER_DOCS_NAME;
-        return realpath($dir);
+
+        if( ($realDir = realpath($dir)) == false )
+            throw new ParseException("Yii API Docs folder does not exists!");
+
+        return $realDir;
+    }
+
+    /**
+     * Get doc/api directory path
+     * @return string Directory path
+     * @throws ParseException
+     */
+    public function getDocsApiFolder() {
+        $dir = $this->getDocsFolder() . DIRECTORY_SEPARATOR . "api";
+        if( !is_dir($dir) )
+            throw new ParseException("API folder does not exists");
+
+        return $dir;
+    }
+
+    /**
+     * @param $name string Filename to get its content
+     * @return string File content
+     * @throws ParseException
+     */
+    public function getDocsApiFile( $name ) {
+        $file = $this->getDocsApiFolder() . DIRECTORY_SEPARATOR . $name;
+        if( !is_file($file) )
+            throw new ParseException('File "'.$name.'" does not exists');
+
+        return file_get_contents($file);
+    }
+
+    /**
+     * Content of packages.txt file
+     * @return string
+     */
+    public function getDocsPackages() {
+        return $this->getDocsApiFile("packages.txt");
+    }
+
+    /**
+     * Content of keywords.txt file
+     * @return string
+     */
+    public function getDocsKeywords() {
+        return $this->getDocsApiFile("keywords.txt");
     }
 
 }
+
+class ParseException extends CException {}

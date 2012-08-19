@@ -1,17 +1,12 @@
 <?php
 
-// uncomment the following to define a path alias
-// Yii::setPathOfAlias('local','path/to/local-folder');
-
-// This is the main Web application configuration. Any writable
-// CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'My Web Application',
     'theme' => 'classic',
     'sourceLanguage' => 'en',
     'language' => 'en',
-    'defaultController' => 'default',
+    'defaultController' => 'doc',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -24,6 +19,9 @@ return array(
 
 	// application components
 	'components'=>array(
+        'cache' => array(
+            'class' => 'CFileCache'
+        ),
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
@@ -33,15 +31,15 @@ return array(
 			'urlFormat'=>'path',
             'showScriptName' => false,
 			'rules'=>array(
-                '/' => 'default/index',
+                '/' => 'doc/index',
+                '<_c:(doc)>/<_a:(api)>/<name:\w+>' => array('<_c>/<_a>', 'urlSuffix'=>'', 'caseSensitive'=>false),
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
 		'errorHandler'=>array(
-			// use 'default/error' action to display errors
-			'errorAction'=>'default/error',
+			'errorAction'=>'doc/error',
 		),
 		'log'=>array(
 			'class'=>'CLogRouter',

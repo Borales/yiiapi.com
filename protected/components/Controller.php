@@ -18,10 +18,22 @@ class Controller extends CController
             /* @var $theme CTheme */
             $theme = Yii::app()->theme;
             $cs->registerPackage('jquery');
+            $cs->registerPackage('bbq');
+            $cs->registerScriptFile( $theme->getBaseUrl() . '/js/highlight.js' );
+            $cs->registerScriptFile( $theme->getBaseUrl() . '/js/jquery.ba-dotimeout.min.js' );
             $cs->registerScriptFile( $theme->getBaseUrl() . '/js/script.js' );
-            $cs->registerCssFile($theme->getBaseUrl() . '/css/styles.css');
+            $cs->registerCssFile($theme->getBaseUrl() . '/css/reset.css');
+            $cs->registerCssFile($theme->getBaseUrl() . '/css/main.css');
             return true;
         }
         return false;
+    }
+
+    /**
+     * Disabling layout and resetting client scripts
+     */
+    protected function cleanLayout() {
+        $this->layout = false;
+        Yii::app()->clientScript->reset();
     }
 }
