@@ -1,4 +1,4 @@
 .idea/*
-doc/*
+doc/api/*
 public/assets/
 protected/runtime/

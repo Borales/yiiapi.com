@@ -226,10 +226,11 @@ body {
 }
 #header h2 {
     background: #ecf3fe;
+    padding: 15px 30px 10px 20px;
 }
-#header h2,
+
 div#inner_content > h1 {
-  padding: 15px 30px 10px 20px;
+  padding: 15px 30px 10px 0;
 }
 div#inner_content > h1 .entry-meta { display: none; }
 .toc {
@@ -482,4 +483,9 @@ table.summaryTable th {
     margin: 5px 0;
     padding:5px;
     background:#FFF5E6;
+}
+
+#footer {
+    margin: 25px 0 15px;
+    text-align: center;
 }
