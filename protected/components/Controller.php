@@ -19,7 +19,6 @@ class Controller extends CController
             $theme = Yii::app()->theme;
             $cs->registerPackage('jquery');
             $cs->registerPackage('history');
-            $cs->registerPackage('bbq');
             $cs->registerScriptFile( $theme->getBaseUrl() . '/js/highlight.js' );
             $cs->registerScriptFile( $theme->getBaseUrl() . '/js/jquery.ba-dotimeout.min.js' );
             $cs->registerScriptFile( $theme->getBaseUrl() . '/js/script.js' );

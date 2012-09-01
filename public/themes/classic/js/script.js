@@ -89,23 +89,20 @@
             clearSelected();
             searchFocus();
             el.parent().addClass(values.selected);
-            $.bbq.pushState({ p:urlMethodName(el) });
+            history.pushState({}, "dsfdf", el.attr('href'));
 
-            return false;
-        });
-
-        $(window).bind('hashchange',function (event) {
-            var state = event.getState(),
-                hasMarkup = /(<([^>]+)>)/ig.test(state.p);
+            var section = location.pathname;
+            var hasMarkup = /(<([^>]+)>)/ig.test(section);
 
             //defeat html xss insertion like #p=<img src%3D/%20onerror%3Dalert(1)>
             //see https://twitter.com/#!/bulkneets/status/156620076160786432
 
-            if (state.p && !hasMarkup) {
-                //console.log($('.sub a[href*="' + state.p + '"]:first'), state.p);
-                loadPage($('.sub a[href*="' + state.p + '"]:first'));
+            if (section != "/" && !hasMarkup) {
+                loadPage($('.sub a[href*="' + section + '"]:first'));
             }
-        }).trigger('hashchange');
+
+            return false;
+        });
 
         zebraItems(elements.list); //zebra the items in the static list
     } //-initialize
@@ -159,42 +156,16 @@
 
     function urlMethodName(link) {
         var href = link.attr('href');
+        href = href.substr(1, href.length -1);
         return href;
-        //return href.substr(5, href.length - 16);
     } //-urlMethodName
 
 
     function loadPage(link) {
         elements.content.html(values.loader).load(link.attr('href'), function () {
             document.title = values.title + link.children('span:first').text();
-            //pageTracker._trackPageview(urlMethodName(link));
-            formatArticle();
         });
     } //-loadPage
-
-
-    function formatArticle() {
-        var pDesc = $('p.desc', elements.content);
-
-        $('.arguement:odd', elements.content).addClass('arguement-odd');
-        if (pDesc.text().length <= 13) pDesc.remove();
-        $('img', elements.content).attr('src', function () {
-            return $(this).attr('src').substr(1);
-        });
-
-        $('.signatures', elements.content).each(function () {
-            var winner = 0;
-            var arg = $(this).find('.arguement');
-
-            arg.children('strong').each(function () {
-                var width = $(this).width();
-                if (width > winner) winner = width;
-            });
-
-            arg.css('padding-left', winner + 50);
-        });
-    } //-formatArticle
-
 
 
     function startSearch() {
