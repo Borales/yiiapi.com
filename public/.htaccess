@@ -9,9 +9,6 @@ RewriteRule ^(.*)\?*$ index.php/$1 [L,QSA]
 RewriteRule "/\\.(svn|git|hg|bzr|cvs)(/|$)" - [F]
 
 
-
-
-
 # Р СњР Вµ Р Т‘Р В°Р ВµР С IE Р Р†Р С•Р в„–РЎвЂљР С‘ Р Р† РЎР‚Р ВµР В¶Р С‘Р С РЎРѓР С•Р Р†Р СР ВµРЎРѓРЎвЂљР С‘Р СР С•РЎРѓРЎвЂљР С‘ РЎРѓ IE7, Р Т‘Р В°Р В¶Р Вµ Р С”Р С•Р С–Р Т‘Р В° Р С•Р Р… РЎРѓР В°Р С РЎРЊРЎвЂљР С•Р С–Р С• РЎвЂ¦Р С•РЎвЂЎР ВµРЎвЂљ
 # github.com/rails/rails/commit/123eb25#commitcomment-118920
 # Use ChromeFrame if it's installed for a better experience for the poor IE folk

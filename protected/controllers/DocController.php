@@ -8,8 +8,8 @@ class DocController extends Controller
         return array(
             array(
                 'COutputCache + navigation',
-                'duration' => 3600 * 24,
-                'dependency'=>array(
+                'duration' => 3600 * 24 * 5,
+                'dependency' => array(
                     'class' => 'system.caching.dependencies.CFileCacheDependency',
                     'fileName' => ParseHelper::i()->getDocsApiFolder() . DIRECTORY_SEPARATOR . 'index.html'
                 ),
@@ -18,14 +18,21 @@ class DocController extends Controller
     }
 
     public function actionIndex() {
-        /* @var $cs CClientScript */
-        //$cs = Yii::app()->clientScript;
-        //$cs->registerMetaTag(ParseHelper::i()->getDocsKeywords(), 'keywords');
-        $this->render('index', array('index' => ParseHelper::i()->getDocsApiFile('index.html')));
+        $this->actionView();
     }
 
-    public function actionApi( $name = 'index' ) {
+    public function actionView( $name = 'index' ) {
+        $text = ParseHelper::i()->getDocsApiFile( sprintf("%s.html", $name) );
 
+        //$cs = Yii::app()->clientScript;
+        //$cs->registerMetaTag(ParseHelper::i()->getDocsKeywords(), 'keywords');
+
+        $data = array('text' => $text);
+        if( Yii::app()->request->isAjaxRequest ) {
+            $this->renderPartial('view', $data);
+        } else {
+            $this->render('view', $data);
+        }
     }
 
 

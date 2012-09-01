@@ -58,16 +58,25 @@ class ParseHelper
     }
 
     /**
-     * @param $name string Filename to get its content
-     * @return string File content
+     * @param string $name Filename to get its content
      * @throws ParseException
+     * @return string File content
      */
     public function getDocsApiFile( $name ) {
         $file = $this->getDocsApiFolder() . DIRECTORY_SEPARATOR . $name;
         if( !is_file($file) )
             throw new ParseException('File "'.$name.'" does not exists');
 
-        return file_get_contents($file);
+        $content = Yii::app()->cache->get( $file );
+
+        if( !$content ) {
+            $content = file_get_contents($file);
+            $content = preg_replace('#href="(/doc/api)(.*?[^"])"#', "href=\"\$2\"", $content);
+
+            Yii::app()->cache->set($file, $content, 3600 * 24 * 5, new CFileCacheDependency($file));
+        }
+
+        return $content;
     }
 
     /**

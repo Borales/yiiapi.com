@@ -4,16 +4,12 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="language" content="en" />
+    <link rel="shortcut icon" type="image/x-icon" href="http://static.yiiframework.com/favicon.ico" />
     <title><?=CHtml::encode($this->pageTitle); ?></title>
 </head>
 <body>
+
 <?=$content?>
-
-<div class="clear"></div>
-
-<div id="footer">
-    <?=Yii::powered();?>
-</div>
 
 </body>
 </html>

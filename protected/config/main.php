@@ -32,7 +32,7 @@ return array(
             'showScriptName' => false,
 			'rules'=>array(
                 '/' => 'doc/index',
-                '<_c:(doc)>/<_a:(api)>/<name:\w+>' => array('<_c>/<_a>', 'urlSuffix'=>'', 'caseSensitive'=>false),
+                '<name:\w+>' => 'doc/view',
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
