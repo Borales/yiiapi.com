@@ -7,7 +7,9 @@
 </div>
 
 <div id="content">
-    <?=$content?>
+    <div id="inner_content">
+        <?=$content?>
+    </div>
 
     <div class="clear"></div>
     <div id="footer">

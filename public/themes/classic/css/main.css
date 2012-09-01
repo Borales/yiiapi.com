@@ -195,6 +195,9 @@ body {
   width: 80%;
   overflow: auto;
 }
+#inner_content {
+    margin: 0 20px;
+}
 #content h1 {
   font-size: 1.8em;
   font-weight: normal;
@@ -225,10 +228,10 @@ body {
     background: #ecf3fe;
 }
 #header h2,
-div#content > h1 {
+div#inner_content > h1 {
   padding: 15px 30px 10px 20px;
 }
-div#content > h1 .entry-meta { display: none; }
+div#inner_content > h1 .entry-meta { display: none; }
 .toc {
   background: #ecf3fe;
   font-size: 1.1em;

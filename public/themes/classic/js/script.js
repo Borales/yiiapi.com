@@ -38,8 +38,8 @@
     values.searchHeight = elements.searchWrapper.innerHeight();
 
     elements.window.resize(function() {
-      var winH =  elements.window.height();
-      var listH = winH - values.searchHeight;
+      var winH =  elements.window.height() - $("#header").height();
+      var listH = elements.window.height() - values.searchHeight;
       
       elements.list.height(listH);
       elements.results.height(listH);
