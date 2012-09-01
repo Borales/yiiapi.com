@@ -83,14 +83,8 @@
             $(this).parent().removeClass(values.open).children('ul').hide();
         });
 
-        $('.sub a').live('click', function () {
-            var el = $(this);
-
-            clearSelected();
-            searchFocus();
-            el.parent().addClass(values.selected);
-            history.pushState({}, "dsfdf", el.attr('href'));
-
+        // On changing history page
+        window.onpopstate = function(){
             var section = location.pathname;
             var hasMarkup = /(<([^>]+)>)/ig.test(section);
 
@@ -100,7 +94,15 @@
             if (section != "/" && !hasMarkup) {
                 loadPage($('.sub a[href*="' + section + '"]:first'));
             }
+        };
 
+        $('.sub a').live('click', function () {
+            var el = $(this);
+
+            clearSelected();
+            searchFocus();
+            el.parent().addClass(values.selected);
+            History.pushState({}, "", el.attr('href'));
             return false;
         });
 
