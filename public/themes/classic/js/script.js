@@ -3,6 +3,7 @@
 
     var values = {
         searchHeight:null,
+        scrollSpeed: 500,
         selected:'selected',
         category:'category',
         open:'open',
@@ -22,7 +23,6 @@
     };
 
     function initialize() {
-        var initialized = false;
         elements = {
             search:$('#search-field'),
             searchWrapper:$('#search'),
@@ -84,79 +84,75 @@
             $(this).parent().removeClass(values.open).children('ul').hide();
         });
 
-        // Checking pathname part
-        if( location.pathname != "/" ) {
-            var selectedLink = $('.sub a[href="' + location.pathname + '"]:first');
-            if( selectedLink ) {
-                makeSelected();
-                hashScroll();
-            }
-        }
-
-        // Checking hash part
-        if( location.hash ) {
-            hashScroll();
-        }
+        // Checking pathname and hash parts
+        makeSelected();
+        hashScroll();
 
         // On changing history page
-        window.onpopstate = function(e){
-            if( !initialized && e.toString().indexOf('PopStateEvent')) {
-                initialized = true;
-                return false;
-            }
-
-            var pathname = location.pathname;
-            var hasMarkup = /(<([^>]+)>)/ig.test(pathname);
-
-            //defeat html xss insertion like #p=<img src%3D/%20onerror%3Dalert(1)>
-            //see https://twitter.com/#!/bulkneets/status/156620076160786432
-
-            if( !hasMarkup ) {
-                var loadUrl = "/index";
-                var link = null;
-
-                if (pathname != "/") {
-                    link = $('.sub a[href="' + pathname + '"]:first');
-                    if( link ) {
-                        loadUrl = link.attr('href');
-                    }
-                }
-
-                if( loadUrl != location.pathname ) {
-                    elements.content.html(values.loader).load(loadUrl, function () {
-                        if( link ) {
-                            document.title = values.title + " - " + link.children('span:first').text();
-                        } else {
-                            document.title = values.title;
-                        }
-                        makeSelected();
-                        hashScroll();
-                    });
-                } else {
-                    hashScroll();
-                }
-            }
-        };
+        // History.Adapter.bind(window,'statechange',function(){
+        History.Adapter.bind(window,'popstate', process);
 
         $('.sub a, #inner_content a[href^="/"]').live('click', function () {
             var el = $(this);
-            clearSelected();
-            searchFocus();
+            //clearSelected();
+            //searchFocus();
 
             if( location.pathname != el.attr('href') ) {
-                History.pushState({}, "", el.attr('href'));
+                History.pushState(null, "", el.attr('href'));
             }
 
             return false;
         });
 
-        $('#inner_content a[href^="#"]').live('click', function() {
-            History.pushState({}, "", location.pathname + location.hash);
-            hashScroll();
+        $("#inner_content div.sourceCode a.show").live('click', function(){
+            $(this).parent().siblings('div.code').toggle();
+            return false;
         });
+
+        $('#inner_content a[href^="#"][class!="show"]').live('click', function() {
+            //console.log(location.pathname + $(this).attr('href'));
+            History.pushState(null, "", location.pathname + $(this).attr('href'));
+            //alert();
+            //hashScroll();
+            return false;
+        });
+
+
 
         zebraItems(elements.list); //zebra the items in the static list
     } //-initialize
+
+    function process() {
+        var hash = location.hash;
+        var pathname = location.pathname;
+        var hasMarkup = /(<([^>]+)>)/ig.test(pathname);
+
+        //defeat html xss insertion like #p=<img src%3D/%20onerror%3Dalert(1)>
+        //see https://twitter.com/#!/bulkneets/status/156620076160786432
+        if( hasMarkup ) {
+            return false;
+        }
+
+        var loadUrl = "/index";
+        var link = null;
+
+        if (pathname != "/") {
+            link = $('.sub a[href="' + pathname + '"]:first');
+            if( link ) {
+                loadUrl = link.attr('href');
+            }
+        }
+
+        elements.content.html(values.loader).load(loadUrl, function () {
+            if( link ) {
+                document.title = values.title + " - " + link.children('span:first').text();
+            } else {
+                document.title = values.title;
+            }
+            makeSelected();
+            hashScroll();
+        });
+    }
 
     function searchFocus() {
         elements.search.focus();
@@ -175,19 +171,25 @@
 
         if( location.pathname != "/" ) {
             var selectedLink= $('.sub a[href="' + location.pathname + '"]:first');
+
+            // Expand category spoiler
             var categoryLink = selectedLink.parents('li.category').find('span:first');
             if( !selectedLink.parents('li.category').hasClass(values.open) ) {
                 categoryLink.click();
             }
 
             selectedLink.parent().addClass(values.selected);
-            $('#static-list').scrollTo("#" + selectedLink.parents('li.sub').attr('id'), 500);
+            $('#static-list').scrollTo("#" + selectedLink.parents('li.sub').attr('id'), values.scrollSpeed);
         }
     }
 
     function hashScroll() {
         if( location.hash ) {
-            //$('#content').scrollTo(location.hash, 750);
+            if( $("#content").find(location.hash) ) {
+                $('#content').scrollTo(location.hash, values.scrollSpeed);
+            } else {
+                $('#content').scrollTo("*[name=" + location.hash.substr(1, location.hash.length - 1) + "]", values.scrollSpeed);
+            }
         }
     }
 
@@ -259,7 +261,6 @@
             }
         });
     } //-startSearch
-
 
     return {
         initialize:initialize
