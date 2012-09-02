@@ -24,7 +24,8 @@ echo CHtml::closeTag('div');
 echo CHtml::openTag('ul', array('id' => 'static-list'));
 
 foreach( $packs as $packName=>$packItems ) {
-    echo CHtml::tag('li', array('class' => 'category'), CHtml::tag('span', array(), $packName));
+    echo CHtml::openTag('li', array('class' => 'category'));
+    echo CHtml::tag('span', array(), $packName);
     if( $packItems ) {
         echo CHtml::openTag('ul');
         foreach($packItems as $packItem) {
@@ -36,5 +37,6 @@ foreach( $packs as $packName=>$packItems ) {
         }
         echo CHtml::closeTag('ul');
     }
+    echo CHtml::closeTag('li');
 }
 echo CHtml::closeTag('ul');

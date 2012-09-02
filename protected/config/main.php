@@ -2,7 +2,7 @@
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Alternative Yii API Documentation',
+	'name'=>'Unofficial Yii API Documentation',
     'theme' => 'classic',
     'sourceLanguage' => 'en',
     'language' => 'en',

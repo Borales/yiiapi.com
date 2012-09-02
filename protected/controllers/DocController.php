@@ -18,12 +18,12 @@ class DocController extends Controller
     }
 
     public function actionIndex() {
-        $this->pageTitle = Yii::app()->name;
         $this->actionView();
     }
 
     public function actionView( $name = 'index' ) {
         $text = ParseHelper::i()->getDocsApiFile( sprintf("%s.html", $name) );
+        $this->pageTitle = Yii::app()->name . ( $name == 'index' ? "" : " - " . $name );
 
         //$cs = Yii::app()->clientScript;
         //$cs->registerMetaTag(ParseHelper::i()->getDocsKeywords(), 'keywords');
@@ -35,7 +35,6 @@ class DocController extends Controller
             $this->render('view', $data);
         }
     }
-
 
     public function actionNavigation() {
         $this->cleanLayout();

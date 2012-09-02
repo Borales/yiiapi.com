@@ -10,7 +10,7 @@
         sub:'sub',
         hasFocus:true,
         loader:'<div id="loader"></div>',
-        title:'Alternative Yii API Documentation - '
+        title:''
     };
 
     var keys = {
@@ -21,8 +21,8 @@
         array:[13, 27, 38, 40]
     };
 
-
     function initialize() {
+        var initialized = false;
         elements = {
             search:$('#search-field'),
             searchWrapper:$('#search'),
@@ -36,6 +36,7 @@
         elements.results = jQuery('<ul>', { id:'results' }).insertBefore(elements.list);
         elements.category = $('.category', elements.list);
         values.searchHeight = elements.searchWrapper.innerHeight();
+        values.title = siteName;
 
         elements.window.resize(function () {
             var winH = elements.window.height() - $("#header").height();
@@ -83,25 +84,50 @@
             $(this).parent().removeClass(values.open).children('ul').hide();
         });
 
+        if( location.pathname ) {
+            makeSelected( $('.sub a[href*="' + location.pathname + '"]:first') );
+        }
+
         // On changing history page
         window.onpopstate = function(){
+            if( !initialized ) {
+                initialized = true;
+                return false;
+            }
+
             var section = location.pathname;
             var hasMarkup = /(<([^>]+)>)/ig.test(section);
 
             //defeat html xss insertion like #p=<img src%3D/%20onerror%3Dalert(1)>
             //see https://twitter.com/#!/bulkneets/status/156620076160786432
 
-            if (section != "/" && !hasMarkup) {
-                loadPage($('.sub a[href*="' + section + '"]:first'));
+            if( !hasMarkup ) {
+                var loadUrl = "/index";
+                var link = null;
+
+                if (section != "/") {
+                    link = $('.sub a[href*="' + section + '"]:first');
+                    if( link ) {
+                        loadUrl = link.attr('href');
+                    }
+                }
+
+                elements.content.html(values.loader).load(loadUrl, function () {
+                    if( link ) {
+                        document.title = values.title + " - " + link.children('span:first').text();
+                        makeSelected(link);
+                    } else {
+                        document.title = values.title;
+                    }
+                });
             }
         };
 
         $('.sub a').live('click', function () {
             var el = $(this);
-
             clearSelected();
             searchFocus();
-            el.parent().addClass(values.selected);
+            makeSelected(el);
             History.pushState({}, "", el.attr('href'));
             return false;
         });
@@ -109,21 +135,24 @@
         zebraItems(elements.list); //zebra the items in the static list
     } //-initialize
 
-
     function searchFocus() {
         elements.search.focus();
     } //-searchFocus
-
 
     function zebraItems(list) {
         $('.sub:odd', list).addClass('odd');
     } //-zebraItems
 
-
     function clearSelected() {
         $('.' + values.selected).removeClass(values.selected);
     } //-clearSelected
 
+    function makeSelected(link) {
+        clearSelected();
+        if( link ) {
+            link.parent().addClass(values.selected);
+        }
+    }
 
     function handleKey(key) {
         if (values.hasFocus) {
@@ -132,7 +161,7 @@
             if (selVis.length) {
                 if (key == keys.up && selVis.prev().length)    selVis.removeClass(values.selected).prev().addClass(values.selected);
                 if (key == keys.down && selVis.next().length)  selVis.removeClass(values.selected).next().addClass(values.selected);
-                if (key == keys.enter)                         $.bbq.pushState({ p:urlMethodName(selVis.children('a')) });
+                if (key == keys.enter)                         History.pushState({}, "", selVis.children('a').attr('href'));
             } else { //no visible selected item
                 var catSel = $('.' + values.catSelected, elements.list);
 
@@ -161,13 +190,6 @@
         href = href.substr(1, href.length -1);
         return href;
     } //-urlMethodName
-
-
-    function loadPage(link) {
-        elements.content.html(values.loader).load(link.attr('href'), function () {
-            document.title = values.title + link.children('span:first').text();
-        });
-    } //-loadPage
 
 
     function startSearch() {
@@ -199,7 +221,7 @@
                     }
                 });
 
-                console.log(elements.results.prepend(winner));
+                //console.log(elements.results.prepend(winner));
                 elements.results.prepend(winner).highlight(term, true, 'highlight').children('li:first').addClass(values.selected);
                 zebraItems(elements.results);
             } else {

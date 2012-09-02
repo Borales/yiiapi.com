@@ -6,6 +6,9 @@
     <meta name="language" content="en" />
     <link rel="shortcut icon" type="image/x-icon" href="http://static.yiiframework.com/favicon.ico" />
     <title><?=CHtml::encode($this->pageTitle); ?></title>
+    <script type="text/javascript">
+        var siteName = '<?=Yii::app()->name?>';
+    </script>
     <?php if( !IS_LOCALHOST ) { ?>
     <script type="text/javascript">
 
