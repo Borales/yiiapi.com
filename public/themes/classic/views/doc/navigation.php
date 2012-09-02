@@ -33,7 +33,7 @@ foreach( $packs as $packName=>$packItems ) {
             $description = CHtml::tag('span', array('class' => 'desc'), $this->getSectionDescription($packItem));
             $link = CHtml::link($title.' '.$description, $this->createUrl('doc/view', array('name' => $packItem)));
 
-            echo CHtml::tag('li', array('class' => 'sub'), $link);
+            echo CHtml::tag('li', array('class' => 'sub', 'id' => uniqid('sub_')), $link);
         }
         echo CHtml::closeTag('ul');
     }

@@ -1,4 +1,4 @@
-<?php /* @var $this Controller */ ?>
+<?php /* @var $this Controller|DocController */ ?>
 <?php $this->beginContent('//layouts/main'); ?>
 <div id="navigation"><div id="loader">&nbsp;</div></div>
 

@@ -84,19 +84,29 @@
             $(this).parent().removeClass(values.open).children('ul').hide();
         });
 
-        if( location.pathname ) {
-            makeSelected( $('.sub a[href*="' + location.pathname + '"]:first') );
+        // Checking pathname part
+        if( location.pathname != "/" ) {
+            var selectedLink = $('.sub a[href="' + location.pathname + '"]:first');
+            if( selectedLink ) {
+                makeSelected();
+                hashScroll();
+            }
+        }
+
+        // Checking hash part
+        if( location.hash ) {
+            hashScroll();
         }
 
         // On changing history page
-        window.onpopstate = function(){
-            if( !initialized ) {
+        window.onpopstate = function(e){
+            if( !initialized && e.toString().indexOf('PopStateEvent')) {
                 initialized = true;
                 return false;
             }
 
-            var section = location.pathname;
-            var hasMarkup = /(<([^>]+)>)/ig.test(section);
+            var pathname = location.pathname;
+            var hasMarkup = /(<([^>]+)>)/ig.test(pathname);
 
             //defeat html xss insertion like #p=<img src%3D/%20onerror%3Dalert(1)>
             //see https://twitter.com/#!/bulkneets/status/156620076160786432
@@ -105,31 +115,44 @@
                 var loadUrl = "/index";
                 var link = null;
 
-                if (section != "/") {
-                    link = $('.sub a[href*="' + section + '"]:first');
+                if (pathname != "/") {
+                    link = $('.sub a[href="' + pathname + '"]:first');
                     if( link ) {
                         loadUrl = link.attr('href');
                     }
                 }
 
-                elements.content.html(values.loader).load(loadUrl, function () {
-                    if( link ) {
-                        document.title = values.title + " - " + link.children('span:first').text();
-                        makeSelected(link);
-                    } else {
-                        document.title = values.title;
-                    }
-                });
+                if( loadUrl != location.pathname ) {
+                    elements.content.html(values.loader).load(loadUrl, function () {
+                        if( link ) {
+                            document.title = values.title + " - " + link.children('span:first').text();
+                        } else {
+                            document.title = values.title;
+                        }
+                        makeSelected();
+                        hashScroll();
+                    });
+                } else {
+                    hashScroll();
+                }
             }
         };
 
-        $('.sub a').live('click', function () {
+        $('.sub a, #inner_content a[href^="/"]').live('click', function () {
             var el = $(this);
             clearSelected();
             searchFocus();
-            makeSelected(el);
-            History.pushState({}, "", el.attr('href'));
+
+            if( location.pathname != el.attr('href') ) {
+                History.pushState({}, "", el.attr('href'));
+            }
+
             return false;
+        });
+
+        $('#inner_content a[href^="#"]').live('click', function() {
+            History.pushState({}, "", location.pathname + location.hash);
+            hashScroll();
         });
 
         zebraItems(elements.list); //zebra the items in the static list
@@ -147,10 +170,24 @@
         $('.' + values.selected).removeClass(values.selected);
     } //-clearSelected
 
-    function makeSelected(link) {
+    function makeSelected() {
         clearSelected();
-        if( link ) {
-            link.parent().addClass(values.selected);
+
+        if( location.pathname != "/" ) {
+            var selectedLink= $('.sub a[href="' + location.pathname + '"]:first');
+            var categoryLink = selectedLink.parents('li.category').find('span:first');
+            if( !selectedLink.parents('li.category').hasClass(values.open) ) {
+                categoryLink.click();
+            }
+
+            selectedLink.parent().addClass(values.selected);
+            $('#static-list').scrollTo("#" + selectedLink.parents('li.sub').attr('id'), 500);
+        }
+    }
+
+    function hashScroll() {
+        if( location.hash ) {
+            //$('#content').scrollTo(location.hash, 750);
         }
     }
 
@@ -183,14 +220,6 @@
             }
         }
     } //-handleKey
-
-
-    function urlMethodName(link) {
-        var href = link.attr('href');
-        href = href.substr(1, href.length -1);
-        return href;
-    } //-urlMethodName
-
 
     function startSearch() {
         elements.search.doTimeout('text-type', 300, function () {
