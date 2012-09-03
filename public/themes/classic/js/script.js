@@ -145,7 +145,7 @@
 
         elements.content.html(values.loader).load(loadUrl, function () {
             if( link ) {
-                document.title = values.title + " - " + link.children('span:first').text();
+                document.title = link.children('span:first').text() + " - " + values.title;
             } else {
                 document.title = values.title;
             }

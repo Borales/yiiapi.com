@@ -23,7 +23,7 @@ class DocController extends Controller
 
     public function actionView( $name = 'index' ) {
         $text = ParseHelper::i()->getDocsApiFile( sprintf("%s.html", $name) );
-        $this->pageTitle = Yii::app()->name . ( $name == 'index' ? "" : " - " . $name );
+        $this->pageTitle = ( $name == 'index' ? "" : $name . " - " ) . Yii::app()->name;
 
         //$cs = Yii::app()->clientScript;
         //$cs->registerMetaTag(ParseHelper::i()->getDocsKeywords(), 'keywords');
