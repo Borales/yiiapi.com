@@ -21,7 +21,8 @@ class Controller extends CController
             $cs->registerPackage('history');
             $cs->registerScriptFile( $theme->getBaseUrl() . '/js/highlight.js' );
             $cs->registerScriptFile( $theme->getBaseUrl() . '/js/jquery.ba-dotimeout.min.js' );
-            $cs->registerScriptFile( $theme->getBaseUrl() . '/js/jquery.scrollTo-min.js' );
+            $cs->registerScriptFile( $theme->getBaseUrl() . '/js/jquery.scrollTo-1.4.3.1-min.js' );
+            //$cs->registerScriptFile( $theme->getBaseUrl() . '/js/jquery.scrollTo-min.js' );
             $cs->registerScriptFile( $theme->getBaseUrl() . '/js/script.js' );
             $cs->registerCssFile($theme->getBaseUrl() . '/css/reset.css');
             $cs->registerCssFile($theme->getBaseUrl() . '/css/main.css');

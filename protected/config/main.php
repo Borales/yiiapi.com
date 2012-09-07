@@ -22,11 +22,18 @@ return array(
         'cache' => array(
             'class' => 'CFileCache'
         ),
+        'clientScript'=>array(
+            'packages'=>array(
+                'jquery'=>array(
+                    'baseUrl'=>'//ajax.googleapis.com/ajax/libs/jquery/1/',
+                    'js'=>array('jquery.min.js'),
+                )
+            ),
+        ),
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
-		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
 			'urlFormat'=>'path',
             'showScriptName' => false,

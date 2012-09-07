@@ -8,7 +8,10 @@ class ParseHelper
     private static $_instance = null;
 
     /* CONST */
-    const FOLDER_DOCS_NAME = 'doc';
+    const FOLDER_DOCS_NAME  = 'doc';
+    const INDEX_FILE        = 'index.html';
+    const TOC_SEARCH        = ".";
+    const TOC_REPLACE       = "_";
 
     /**
      * @static
@@ -72,6 +75,19 @@ class ParseHelper
         if( !$content ) {
             $content = file_get_contents($file);
             $content = preg_replace('#href="(/doc/api)(.*?[^"])"#', "href=\"\$2\"", $content);
+
+            if( preg_match_all('#<a href="/(\#system..*?[^"])"#', $content, $matches) ) {
+                foreach($matches[1] as $match) {
+                    $content = str_replace($match, str_replace(self::TOC_SEARCH, self::TOC_REPLACE, $match), $content);
+                }
+            }
+
+            if( $name == self::INDEX_FILE && preg_match_all('#<a name=("system.*?[^"]")>#', $content, $systemMatches) ) {
+                foreach($systemMatches[1] as $systemMatch) {
+                    $_systemMatch = str_replace(self::TOC_SEARCH, self::TOC_REPLACE, $systemMatch);
+                    $content = str_replace($systemMatch, $_systemMatch, $content);
+                }
+            }
 
             Yii::app()->cache->set($file, $content, 3600 * 24 * 5, new CFileCacheDependency($file));
         }

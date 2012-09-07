@@ -110,14 +110,10 @@
         });
 
         $('#inner_content a[href^="#"][class!="show"]').live('click', function() {
-            //console.log(location.pathname + $(this).attr('href'));
             History.pushState(null, "", location.pathname + $(this).attr('href'));
-            //alert();
             //hashScroll();
             return false;
         });
-
-
 
         zebraItems(elements.list); //zebra the items in the static list
     } //-initialize
@@ -130,7 +126,7 @@
         //defeat html xss insertion like #p=<img src%3D/%20onerror%3Dalert(1)>
         //see https://twitter.com/#!/bulkneets/status/156620076160786432
         if( hasMarkup ) {
-            return false;
+            return;
         }
 
         var loadUrl = "/index";
@@ -149,9 +145,10 @@
             } else {
                 document.title = values.title;
             }
-            makeSelected();
             hashScroll();
+            makeSelected();
         });
+        return false;
     }
 
     function searchFocus() {
@@ -185,10 +182,10 @@
 
     function hashScroll() {
         if( location.hash ) {
-            if( $("#content").find(location.hash) ) {
+            if( $("#content").find(location.hash).length ) {
                 $('#content').scrollTo(location.hash, values.scrollSpeed);
             } else {
-                $('#content').scrollTo("*[name=" + location.hash.substr(1, location.hash.length - 1) + "]", values.scrollSpeed);
+                $('#content').scrollTo("*[name=\"" + location.hash.substr(1, location.hash.length - 1) + "\"]", values.scrollSpeed);
             }
         }
     }
@@ -268,5 +265,5 @@
 }();
 
 $(document).ready(function () {
-    var navigation_el = $('#navigation').load('/doc/navigation', function () {yiiapi.initialize();});
+    $('#navigation').load('/doc/navigation', function () {yiiapi.initialize();});
 });
