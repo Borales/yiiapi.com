@@ -94,9 +94,7 @@
             }
         });
 
-        $("#inner_content a.sourceLink").click(function(){
-            $(this).attr("target","_blank");
-        });
+        $("#inner_content a.sourceLink").attr("target","_blank");
 
         $('#inner_content div.sourceCode a.show').live('click', function(){
             if( $(this).parents(".sourceCode").find("div.code").is(":visible") ) {
