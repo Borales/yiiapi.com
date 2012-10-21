@@ -84,6 +84,16 @@
             $(this).parent().removeClass(values.open).children('ul').hide();
         });
 
+        $('#content a.toggle').live('click', function(){
+            if( $(this).parents(".summary").find(".inherited").is(':visible') ) {
+                $(this).text($(this).text().replace(/Hide/,"Show"));
+                $(this).parents(".summary").find(".inherited").fadeOut();
+            } else {
+                $(this).text($(this).text().replace(/Show/,"Hide"));
+                $(this).parents(".summary").find(".inherited").fadeIn();
+            }
+        });
+
         // Checking pathname and hash parts
         makeSelected();
         hashScroll();
@@ -94,8 +104,6 @@
 
         $('.sub a, #inner_content a[href^="/"]').live('click', function () {
             var el = $(this);
-            //clearSelected();
-            //searchFocus();
 
             if( location.pathname != el.attr('href') ) {
                 History.pushState(null, "", el.attr('href'));
