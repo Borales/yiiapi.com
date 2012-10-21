@@ -196,6 +196,7 @@ body {
   overflow: auto;
 }
 #inner_content {
+    font: 13px/1.5 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif;
     margin: 0 20px;
 }
 #content h1 {
@@ -210,6 +211,8 @@ body {
 #header h2 {
     font-size: 2em;
     font-weight: normal;
+    background: #ecf3fe;
+    padding: 15px 30px 10px 20px;
 }
 
 #content h3 {
@@ -223,10 +226,6 @@ body {
 #content a:hover {
   background: #ffec86;
   color: #444444;
-}
-#header h2 {
-    background: #ecf3fe;
-    padding: 15px 30px 10px 20px;
 }
 
 div#inner_content > h1 {
@@ -401,25 +400,35 @@ pre {
 div.code {
     display: none;
     color: #000000;
-    background-color: #FFF5E6;
-    font-family: "courier new", "times new roman", monospace;
+    /*background-color: #FFF5E6;*/
     line-height: 1.3em;
     /* Put a nice border around it. */
-    padding: 1px;
+    /*padding: 1px;*/
     width: 90%;
     /* Don't wrap its contents, and show scrollbars. */
     /* white-space: nowrap;*/
     overflow: auto;
     /* Stop after about 24 lines, and just show a scrollbar. */
     /* max-height: 24em; */
-    margin: 5px;
-    padding-left: 20px;
+    /*margin: 5px;*/
+    /*padding-left: 20px;*/
     border-left: 6px solid #FFE6BF;
+
+
+
+    padding:1em;
+    background:#fcfcfc;
+    border-top:1px solid #eee;
+    border-bottom:1px solid #eee;
+    font-family:Menlo,Consolas,"Courier New",Courier,mono;
+    margin:1em 0;
+    font-size:10pt;
 }
 
 table.summaryTable {
     /*background: #E6ECFF;*/
     border-collapse: collapse;
+    margin: 10px 0 20px;
     width: 100%;
 }
 
@@ -480,12 +489,25 @@ table.summaryTable th {
 }
 
 .sourceCode {
-    margin: 5px 0;
-    padding:5px;
-    background:#FFF5E6;
+    margin: 0 0 10px 0;
+    padding: .2em .5em;
+    background: #F0F0F0;
 }
 
 #footer {
     margin: 25px 0 15px;
     text-align: center;
+}
+
+#content .summary h1, #content .summary h2, #content .summary h3 {
+    color: #444;
+    font-weight: normal;
+}
+
+#content h2 {
+    font-size: 23px;
+}
+
+div#inner_content > h2 {
+    margin-top: 10px;
 }
