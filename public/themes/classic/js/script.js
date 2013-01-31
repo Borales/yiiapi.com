@@ -74,14 +74,17 @@
             })
             .focus();
 
-        $('.' + values.category + ' > span', elements.list).toggle(function () {
+        $(elements.list).on("click", '.' + values.category + ' > span', function () {
             clearSelected();
             searchFocus();
-            $(this).parent().addClass(values.open).children('ul').show();
-        }, function () {
-            clearSelected();
-            searchFocus();
-            $(this).parent().removeClass(values.open).children('ul').hide();
+
+            if($(this).parent().hasClass(values.open)) {
+                $(this).parent().removeClass(values.open);
+            } else {
+                $(this).parent().addClass(values.open);
+            }
+
+            $(this).parent().children('ul').toggle();
         });
 
         $(document).on('click', '#inner_content a.toggle', function(){
