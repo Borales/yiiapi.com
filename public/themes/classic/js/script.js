@@ -84,7 +84,7 @@
             $(this).parent().removeClass(values.open).children('ul').hide();
         });
 
-        $('#inner_content a.toggle').live('click', function(){
+        $('#inner_content a.toggle').on('click', function(){
             if( $(this).parents(".summary").find(".inherited").is(':visible') ) {
                 $(this).text($(this).text().replace(/Hide/,"Show"));
                 $(this).parents(".summary").find(".inherited").fadeOut();
@@ -96,7 +96,7 @@
 
         $("#inner_content a.sourceLink").attr("target","_blank");
 
-        $('#inner_content div.sourceCode a.show').live('click', function(){
+        $('#inner_content div.sourceCode a.show').on('click', function(){
             if( $(this).parents(".sourceCode").find("div.code").is(":visible") ) {
                 $(this).text($(this).text().replace(/hide/,"show"));
                 $(this).parents(".sourceCode").find("div.code").slideUp();
@@ -117,7 +117,7 @@
         // History.Adapter.bind(window,'statechange',function(){
         History.Adapter.bind(window,'popstate', process);
 
-        $('.sub a, #inner_content a[href^="/"]').live('click', function () {
+        $('.sub a, #inner_content a[href^="/"]').on('click', function () {
             var el = $(this);
 
             if( location.pathname != el.attr('href') ) {
@@ -127,7 +127,7 @@
             return false;
         });
 
-        $('#inner_content a[href^="#"][class!="show"]').live('click', function() {
+        $('#inner_content a[href^="#"][class!="show"]').on('click', function() {
             History.pushState(null, "", location.pathname + $(this).attr('href'));
             //hashScroll();
             return false;
