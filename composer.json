@@ -1,0 +1,36 @@
+{
+  "name":"yiiapi.com",
+  "homepage":"http://yiiapi.com",
+  "minimum-stability":"dev",
+  "config":{
+    "vendor-dir":"app/lib/vendor"
+  },
+  "repositories":[
+    {
+      "type":"composer",
+      "url":"http://packages.phundament.com"
+    }
+  ],
+  "require":{
+    "yiisoft/yii":"dev-master",
+    "phpunit/phpunit": "dev-master",
+    "phpunit/phpunit-selenium": "dev-master"
+  },
+  "autoload":{
+    "psr-0":{
+      "Yiinitializr":"app/lib/"
+    }
+  },
+  "scripts":{
+    "pre-install-cmd":"Yiinitializr\\Composer\\Callback::preInstall",
+    "post-install-cmd":"Yiinitializr\\Composer\\Callback::postInstall",
+    "pre-update-cmd":"Yiinitializr\\Composer\\Callback::preUpdate",
+    "post-update-cmd":"Yiinitializr\\Composer\\Callback::postUpdate",
+    "post-package-install":[
+      "Yiinitializr\\Composer\\Callback::postPackageInstall"
+    ],
+    "post-package-update":[
+      "Yiinitializr\\Composer\\Callback::postPackageUpdate"
+    ]
+  }
+}

@@ -1,4 +1,39 @@
-.idea/*
 doc/api/*
-public/assets/
-protected/runtime/
+
+# cache directories
+Thumbs.db
+*.DS_Store
+*.empty
+
+#phpstorm project files
+.idea
+
+#netbeans project files
+nbproject
+
+#eclipse, zend studio, aptana or other eclipse like project files
+.buildpath
+.project
+.settings
+
+# sass cache files
+*.sass-cache
+
+# mac deployment helpers
+switch
+index
+
+# runtime and cache directories
+/app/runtime
+/www/assets
+
+# yiinitializr env.lock
+/app/lib/Yiinitializr/config/env.lock
+
+# env files and testdrive database
+/app/config/env.php
+/app/data/testdrive.db
+
+# composer
+/app/lib/vendor
+composer.lock

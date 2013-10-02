@@ -1,0 +1,1 @@
+<div id="inner_content"><?php echo $text; ?></div>
