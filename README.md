@@ -8,6 +8,7 @@ Inspired by:
 Requirements
 ------------
 * PHPUnit (PEAR)
+
 ```
 pear channel-discover pear.phpunit.de
 pear channel-discover components.ez.no
