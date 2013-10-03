@@ -1,5 +1,4 @@
 {
-  "name":"yiiapi.com",
   "homepage":"http://yiiapi.com",
   "minimum-stability":"dev",
   "config":{
@@ -12,9 +11,7 @@
     }
   ],
   "require":{
-    "yiisoft/yii":"dev-master",
-    "phpunit/phpunit": "dev-master",
-    "phpunit/phpunit-selenium": "dev-master"
+    "yiisoft/yii":"dev-master"
   },
   "autoload":{
     "psr-0":{

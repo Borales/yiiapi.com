@@ -1,10 +1,9 @@
 <?php
-
 Yii::import('application.components.ParseHelper');
-
 class ParseCommand extends CConsoleCommand
 {
 	const PHP_EXEC_CMD = 'php';
+	const PHP_FLAG = '-d memory_limit=128M';
 
 	/**
 	 * @return string
@@ -24,6 +23,9 @@ class ParseCommand extends CConsoleCommand
 	 */
 	protected function getDocsDirectory()
 	{
+		ParseHelper::i()->getDocsFolder();
+		ParseHelper::i()->getDocsApiFolder();
+
 		return ParseHelper::i()->getDocsFolder();
 	}
 
@@ -32,7 +34,7 @@ class ParseCommand extends CConsoleCommand
 	 */
 	protected function getBaseBuildCmd()
 	{
-		return self::PHP_EXEC_CMD . ' ' . Yii::getPathOfAlias('vendor.yiisoft.yii.build') . DIRECTORY_SEPARATOR . 'build api ';
+		return self::PHP_EXEC_CMD . ' ' . self::PHP_FLAG . ' ' . Yii::getPathOfAlias('vendor.yiisoft.yii.build') . DIRECTORY_SEPARATOR . 'build api ';
 	}
 
 	/**
