@@ -37,3 +37,4 @@ index
 # composer
 /app/lib/vendor
 composer.lock
+composer.phar
