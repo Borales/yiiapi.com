@@ -34,7 +34,7 @@ class ParseCommand extends CConsoleCommand
 	 */
 	protected function getBaseBuildCmd()
 	{
-		return self::PHP_EXEC_CMD . ' ' . self::PHP_FLAG . ' ' . Yii::getPathOfAlias('vendor.yiisoft.yii.build') . DIRECTORY_SEPARATOR . 'build api ';
+		return self::PHP_EXEC_CMD . ' ' . self::PHP_FLAG . ' ' . dirname(Yii::getPathOfAlias('application')) . DIRECTORY_SEPARATOR . 'build api ';
 	}
 
 	/**

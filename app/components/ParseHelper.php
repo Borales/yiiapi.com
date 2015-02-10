@@ -46,13 +46,8 @@ class ParseHelper
 	public function getDocsFolder()
 	{
 		$dir = Yii::getPathOfAlias('application.runtime.'.self::FOLDER_DOCS_NAME);
-		if (($realDir = realpath($dir)) == false) {
-			@mkdir($dir);
-			if(!realpath($dir)) {
-				throw new ParseException("Yii API Docs folder does not exists!");
-			}
-		}
-		return $realDir;
+		@CFileHelper::createDirectory($dir, null, true);
+		return realpath($dir);
 	}
 
 	/**
@@ -64,12 +59,7 @@ class ParseHelper
 	public function getDocsApiFolder()
 	{
 		$dir = $this->getDocsFolder() . DIRECTORY_SEPARATOR . "api";
-		if (!is_dir($dir)) {
-			@mkdir($dir);
-			if(!realpath($dir)) {
-				throw new ParseException("API folder does not exists");
-			}
-		}
+		@CFileHelper::createDirectory($dir, null, true);
 		return $dir;
 	}
 

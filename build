@@ -1,0 +1,7 @@
+#!/usr/bin/env php
+<?php
+
+$root=dirname(__FILE__) . '/app/lib/vendor/yiisoft/yii/build';
+$config=array('basePath'=>$root);
+require('./app/lib/vendor/autoload.php');
+require_once($root.'/../framework/yiic.php');
